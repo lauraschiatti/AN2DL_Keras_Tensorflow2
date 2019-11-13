@@ -4,7 +4,7 @@
 import numpy as np
 import tensorflow as tf
 
-# Operations on tensors
+# Operations on tensors =? tensorflow 2.0
 # ---------------
 
 matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
