@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+# !/usr/bin/env python3.6
 #  -*- coding: utf-8 -*-
 
 import tensorflow as tf
@@ -133,46 +133,43 @@ def normalize_img(x_, y_):
 
 
 # Divide in batches
-def divide_batches(train_dataset, bs):
-    train_dataset = train_dataset.batch(bs)
+#  --------------------------
+def divide_batches(dataset, bs):
+    train_dataset = dataset.batch(bs)
 
     # Repeat
     # Without calling the repeat function the dataset
     # will be empty after consuming all the images (after the batching)
     train_dataset = train_dataset.repeat()
 
+    return train_dataset
+
 
 # Create Multiclass Dataset
 #  --------------------------------------
-def multiclass_dataset(x, y, bs, shuffle=False): # x inputs, y targets
+def multiclass_dataset(x, y, bs, shuffle=False, ): # x: images, y: labels
 
     # Create dataset
     dataset = dataset_from_tensor_slices(x, y)
 
-
-    # Iterate over the dataset
-    print("\n1. Dataset ... ")
-    iterate_dataset(dataset)
-
-
     # Shuffle
     if shuffle == True: # No need to shuffle validation and test sets
-        print("\n2. Dataset + shuffle ... ")
+        print("1. Dataset + shuffle ... ")
         dataset = dataset.shuffle(buffer_size=x.shape[0])
 
 
     # Normalization
-    print("\n3. Dataset + shuffle (train) + normalization  ... ")
+    print("2. Dataset + shuffle (train) + normalization  ... ")
     dataset = dataset.map(normalize_img) # compute mapping for every sample
 
 
     # One-hot Encoding
-    print("\n4. Dataset + shuffle (train) + normalization + one-hot ... ")
+    print("3. Dataset + shuffle (train) + normalization + one-hot ... ")
     dataset = dataset.map(to_categorical) # compute mapping for every sample
 
 
     # Divide dataset into batches
-    print("\n5. Dataset + shuffle (train) + normalization + one-hot + batch ... ")
+    print("4. Dataset + shuffle (train) + normalization + one-hot + batch ... ")
     dataset = divide_batches(dataset, bs)
 
     return dataset
