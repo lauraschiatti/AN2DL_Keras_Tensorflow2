@@ -1,0 +1,31 @@
+
+# ------------------------------------------------------------------ #
+                ##### Deep Learning Framework #####
+# ------------------------------------------------------------------ #
+
+## Dataset and Data Loader ##
+
+## Model creation ##
+# tf.keras.layers
+# tf.keras.Model
+# tf.keras.Sequential
+
+
+## Model training and validation ##
+# model.fit
+# tf.keras.optimizers
+# tf.keras.losses
+
+
+## Model test ##
+#  model.evaluate
+#  model.metrics
+#  model.predict
+
+## Save and Restore models ##
+# callbacks.ModelCheckpoint
+# model.save_weights
+# model.save
+
+## Visualize Learning
+# callbacks.Tensorboard

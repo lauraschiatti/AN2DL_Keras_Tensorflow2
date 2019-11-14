@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+# !/usr/bin/env python3.6
 #  -*- coding: utf-8 -*-
 
 # A tensor is an N-dimensional array containing the same type of data (int32, bool, etc.)

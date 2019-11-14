@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+# !/usr/bin/env python3.6
 #  -*- coding: utf-8 -*-
 
 import numpy as np
@@ -7,7 +7,7 @@ import tensorflow as tf
 # Load and show an image with Pillow
 from PIL import Image
 # Load the image
-img = Image.open('airplane.jpg')
+img = Image.open('basics/airplane.jpg')
 
 # Get basic details about the image
 print("img", img)

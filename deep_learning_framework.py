@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+# !/usr/bin/env python3.6
 #  -*- coding: utf-8 -*-
 
 import numpy as np
@@ -15,9 +15,6 @@ from utils import data_preparation as dp
 # This let our experiments to be reproducible.
 tf.random.set_seed(1234)
 
-# ------------------------------------------------------------------ #
-                ##### Data Preparation #####
-# ------------------------------------------------------------------ #
 
 ## Dataset and Data Loader ##
 
@@ -25,44 +22,19 @@ tf.random.set_seed(1234)
 dp.sequential_dataset()
 print("\n")
 
-dp.dataset_from_tensors()
+tensor = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+dp.dataset_from_tensors(tensor)
 print("\n")
 
-dp.dataset_from_tensor_slices()
+x_train = np.random.uniform(size=[10, 2, 2])
+y_train = np.random.randint(10, size=[10])
+dp.dataset_from_tensor_slices(x_train, y_train)
 print("\n")
 
-zipped = dp.combine_datasets()
+
+x = tf.data.Dataset.from_tensor_slices(np.random.uniform(size=10))
+y = tf.data.Dataset.from_tensor_slices([1, 2, 3, 4, 5, 6, 7, 8, 9])
+zipped = dp.combine_datasets(x, y)
 print("\n")
 
 dp.iterate_range_dataset(zipped)
-
-## Model creation ##
-# tf.keras.layers
-# tf.keras.Model
-# tf.keras.Sequential
-
-
-
-# ------------------------------------------------------------------ #
-                ##### Training Loop #####
-# ------------------------------------------------------------------ #
-
-## Model training and validation ##
-# model.fit
-# tf.keras.optimizers
-# tf.keras.losses
-
-
-## Model test ##
-#  model.evaluate
-#  model.metrics
-#  model.predict
-
-
-## Save and Restore models ##
-# callbacks.ModelCheckpoint
-# model.save_weights
-# model.save
-
-## Visualize Learning
-# callbacks.Tensorboard
