@@ -170,6 +170,7 @@ print("---------- ---------- ---------- ---------- ---------- ")
 # ----------------------
 
 # Compute output given x
+
 print("Compute prediction, picture shoe.png")
 
 shoe_img = Image.open('img/shoe.png').convert('L') # open into greyscale, or L mode
@@ -177,9 +178,8 @@ shoe_img = Image.open('img/shoe.png').convert('L') # open into greyscale, or L m
 shoe_arr = np.expand_dims(np.array(shoe_img), 0)
 
 out_softmax = model.predict(x=shoe_arr / 255.)
-print("out_softmax", out_softmax) # is already a probability distribution (softmax)
 
-out_softmax = tf.keras.activations.softmax(tf.convert_to_tensor(out_softmax))
+print("out_softmax", out_softmax) # is already a probability distribution (softmax)
 
 # Get predicted class as the index corresponding to the maximum value in the vector probability
 predicted_class = tf.argmax(out_softmax, 1)
