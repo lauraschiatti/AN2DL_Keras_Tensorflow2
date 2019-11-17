@@ -9,4 +9,7 @@ __pycache__
 *.pyc
 
 # Experiments
-experiments/
+overfitting_experiments/
+
+# Datasets
+datasets/

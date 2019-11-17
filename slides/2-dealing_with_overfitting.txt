@@ -1,4 +1,7 @@
-Dealing with Overfitting
+# ------------------------------------------------------------------ #
+                ##### Dealing with Overfitting #####
+# ------------------------------------------------------------------ #
+
 
 Now, when stop training?
 - When the model is overfitting, it is learning the noise of the data
@@ -24,8 +27,8 @@ Now, when stop training?
     - Early stopping: stop the training when starting to overfit
         # tf.keras.callbacks.EarlyStopping
 
-    - Data augmentation: when having not enough data, increase inputs to avoid memorizing data
-        - Increases variance of data, and helps to avoid
-        - apply distorsions/noise to samples: Zoom in/out, rotate…
+    - Data augmentation: when there's not enough data, increase inputs to avoid memorizing data and increase variance
+        - generate “new” training samples from the original ones by applying random jitters(noise) and perturbations
+        (but at the same time ensuring that the class labels of the data are not changed).
 
         # tf.keras.preprocessing.image.ImageDataGenerator

@@ -5,14 +5,15 @@ import tensorflow as tf
 import numpy as np
 
 from utils import data_preparation as dp
-from utils.training_callbacks import ckpt_callback, tb_callback
+from utils.training_callbacks import callbacks, set_which_model
 
 
 # Fix the seed for random operations to make experiments reproducible.
-tf.random.set_seed(1234)
+SEED = 1234
+tf.random.set_seed(SEED)
 
 
-# Fashion MNIST classification
+# Multi-class Fashion MNIST classification
 # ----------------------------
 
 # x: 28x28 (grayscale images)
@@ -27,6 +28,57 @@ tf.random.set_seed(1234)
     # 8. Sneaker
     # 9. Bag
     # 10. Ankle boot
+
+
+def create_model():
+
+    which_model = 'base_weight_decay'
+    set_which_model(which_model) # set model for training_callbacks
+
+    # Create base model using functional API Model (e.g., Input -> Hidden -> Out)
+    if which_model == 'model':
+        # x = tf.keras.Input(shape=[28, 28])  # input tensor
+        # flatten = tf.keras.layers.Flatten()(x)
+        # h = tf.keras.layers.Dense(units=10, activation=tf.keras.activations.sigmoid)(flatten)  # hidden layers
+        # output layer:probabccc of belonging to each class
+        # out = tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax)(h)
+        # model = tf.keras.Model(inputs=x, outputs=out)
+
+        # equivalent formulation:
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
+        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.sigmoid))
+        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
+
+    # Create base model using sequential model (e.g., Input -> Hidden -> Out)
+    elif which_model == 'base':
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
+        model.add(tf.keras.layers.Dense(units=1000, activation=tf.keras.activations.sigmoid))
+        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
+
+    # Create model with Dropout layer
+    elif which_model == 'base_dropout':
+
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
+        model.add(tf.keras.layers.Dense(units=1000, activation=tf.keras.activations.sigmoid))
+        model.add(tf.keras.layers.Dropout(0.3))  # rate (probab): 0.3
+        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
+
+    # Create model with weights penalty (L2 regularization)
+    elif which_model == 'base_weight_decay':
+
+        model = tf.keras.Sequential()
+        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
+        model.add(tf.keras.layers.Dense(units=1000,
+                                        activation=tf.keras.activations.sigmoid,
+                                        kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
+        model.add(tf.keras.layers.Dense(units=10,
+                                        activation=tf.keras.activations.softmax,
+                                        kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
+
+    return model
 
 
 # 1 - Dataset
@@ -149,7 +201,7 @@ history = model.fit(x=train_dataset,
           # at the end of each epoch
           validation_data=valid_dataset,
           validation_steps=10000,
-          callbacks=[ckpt_callback, tb_callback])
+          callbacks=callbacks)
 
 # The returned 'history' object holds a record
 # of the loss values and metric values during training
@@ -158,7 +210,7 @@ history = model.fit(x=train_dataset,
 
 # 4 - Test Model
 # --------------
-# Let's try a different way to give data to model using directly the NumPy arrays
+
 # model.load_weights('/path/to/checkpoint')  # use this if you want to restore saved model
 
 # Evaluate the model on the test data using `evaluate`
@@ -189,60 +241,3 @@ print('out_softmax', out_softmax) # is already a probability distribution (softm
 # Get predicted class as the index corresponding to the maximum value in the vector probability
 predicted_class = tf.argmax(out_softmax, 1)
 print('predicted_class', predicted_class)  # predictions as tensors
-
-
-
-
-
-def create_model():
-
-    # With the functional API Model:
-    x = tf.keras.Input(shape=[28, 28])  # input tensor
-    flatten = tf.keras.layers.Flatten()(x)
-    h = tf.keras.layers.Dense(units=10, activation=tf.keras.activations.sigmoid)(flatten)  # hidden layers
-    # output layer:probab of belonging to each class
-    out = tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax)(h)
-    model = tf.keras.Model(inputs=x, outputs=out)
-
-    # With the Sequential model:
-    # seq_model = tf.keras.Sequential()
-    # seq_model.add(tf.keras.layers.Flatten(input_shape=(28, 28))) # or as a list
-    # seq_model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.sigmoid))
-    # seq_model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
-
-
-    ## Dealing with overfitting ##
-
-    which_model = 'base'
-
-    # Create base model (e.g., Input -> Hidden -> Out)
-    if which_model == 'base':
-
-        model = tf.keras.Sequential()
-        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
-        model.add(tf.keras.layers.Dense(units=1000, activation=tf.keras.activations.sigmoid))
-        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
-
-    # Create model with Dropout layer
-    elif which_model == 'base_dropout':
-
-        model = tf.keras.Sequential()
-        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
-        model.add(tf.keras.layers.Dense(units=1000, activation=tf.keras.activations.sigmoid))
-        model.add(tf.keras.layers.Dropout(0.3)) #  rate (probab): 0.3
-        model.add(tf.keras.layers.Dense(units=10, activation=tf.keras.activations.softmax))
-
-    # Create model with weights penalty (L2 regularization)
-    elif which_model == 'base_weight_decay':
-
-        model = tf.keras.Sequential()
-        model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))  # or as a list
-        model.add(tf.keras.layers.Dense(units=1000,
-                                        activation=tf.keras.activations.sigmoid,
-                                        kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
-        model.add(tf.keras.layers.Dense(units=10,
-                                        activation=tf.keras.activations.softmax,
-                                        kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
-
-
-    return model

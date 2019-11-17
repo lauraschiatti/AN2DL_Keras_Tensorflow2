@@ -129,7 +129,7 @@ def to_categorical(x_, y_):
 
 # Normalize images
 #  --------------------------
-# convert our data type to float32 and normalize our data values to the range [0, 1]
+# convert our data type to float32 and normalize pixel values to the range [0, 1]
 def normalize_img(x_, y_):
 
     return tf.cast(x_, tf.float32) / 255., y_
