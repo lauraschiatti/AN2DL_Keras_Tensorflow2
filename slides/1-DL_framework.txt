@@ -1,0 +1,97 @@
+
+# ------------------------------------------------------------------ #
+                ##### Deep Learning Framework #####
+# ------------------------------------------------------------------ #
+
+
+## Fix random seed to make your results reproducible. ##
+# NN algorithms are stochastic.
+Nevertheless, there are times when you need the exact same result every time the same network is trained on the same data.
+
+## Dataset and Data Loader ##
+#----------------------------
+# tf.keras.datasets ==> available keras datasets
+
+
+## Define Model architecture ##
+# -----------------------------
+- Two main types of models available in Keras
+
+1)  Functional API Model ::: groups multiple layers into an object
+    x = tf.keras.Input(shape, dtype, ...)
+    layer1 = tf.keras.layers.LAYER_NAME(...)(x) ...
+    ....
+    out = ....
+
+2) Sequential model ::: linear stack of layers, 2 modalities
+    1. model = tf.keras.Sequential([layer1, layer2, ..., layerN])
+    2. model = tf.keras.Sequential() model.add(layer1)
+                                     model.add(layer2)
+                                     ....
+                                     model.add(layerN)
+
+- model.get_config() returns a dictionary containing the configuration of the model
+
+- the model can be reinstantiated from its config via
+       config = model.get_config()
+       model = Model.from_config(config)
+       # or, for Sequential:
+       model = Sequential.from_config(config)
+
+
+## Model training and validation ##
+# ---------------------------------
+# model.compile (tf.keras.optimizers, tf.keras.losses) ::: prepare model for training
+# model.fit ::: train the model
+
+
+## Model test ##
+# --------------
+#  model.evaluate ::: compute loss and metrics in test mode
+                      return test loss or list of scalars (for multiple outputs and metrics)
+#  model.metrics
+#  model.predict ::: compute model output
+                     return predictions as tensors
+
+
+## Save and Restore models ##
+# ---------------------------
+# callbacks.ModelCheckpoint ::: save model during learning
+    # 1. True: save only model weights
+               # model.save_weights
+               # model.load_weights ::: restore model
+    # 2. False: save the entire model
+               # model.save
+               # model = tf.keras.models.load_model ::: restore model
+
+
+
+## Visualize Learning
+# -------------------
+# callbacks.Tensorboard ::: Tensorflow’s visualization toolkit
+
+# How to visualize Tensorboard
+# 1. tensorboard --logdir EXPERIMENTS_DIR --port PORT    <- from terminal
+# 2. localhost:PORT   <- in your browser
+
+
+
+
+
+# ------------------------------------------------------------------ #
+
+Mainly ...
+
+Preprocessing
+- Split dataset into train and test
+- Then, split again train into train and validation
+
+1. Build Model
+		Layer 1
+		    …
+		Layer N
+
+2. Compile (prepare model for training) => loss/optimizer/metrics
+3. Fit (training using train and valid dataset)
+4. Evaluate (using test dataset)
+5. Predict

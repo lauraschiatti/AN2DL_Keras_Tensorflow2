@@ -123,12 +123,15 @@ def iterate_range_dataset(zipped):
 # for categorical cross entropy
 #  --------------------------
 def to_categorical(x_, y_):
+
     return x_, tf.one_hot(y_, depth=10) # 10 classes
 
 
 # Normalize images
 #  --------------------------
+# convert our data type to float32 and normalize our data values to the range [0, 1]
 def normalize_img(x_, y_):
+
     return tf.cast(x_, tf.float32) / 255., y_
 
 
@@ -147,7 +150,9 @@ def divide_batches(dataset, bs):
 
 # Create Multiclass Dataset
 #  --------------------------------------
-def multiclass_dataset(x, y, bs, shuffle=False, ): # x: images, y: labels
+# Preprocess input data
+
+def images_dataset(x, y, bs, shuffle=False, ): # x: images, y: labels
 
     # Create dataset
     dataset = dataset_from_tensor_slices(x, y)

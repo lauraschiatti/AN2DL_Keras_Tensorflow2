@@ -1,0 +1,31 @@
+Dealing with Overfitting
+
+Now, when stop training?
+- When the model is overfitting, it is learning the noise of the data
+    - When too many params, the model is interpolating not predicting
+
+- Different ways to avoid it
+    - Reduce number of params
+
+    - Dropout: each hidden unit is turned off with probability equal to ‘rate’ (main parameter)
+        rate = fraction of the input units to drop.
+        randomly set a fraction rate of input units to 0 at each update during training time
+
+    - Weight decay: add regularization term to the loss function to penalize params
+        three different regularizer instances are provided; they are:
+        L1: Sum of the absolute weights.
+        L2: Sum of the squared weights.
+        L1L2: Sum of the absolute and the squared weights.
+
+        # tf.keras.regularizers
+
+        - A weight regularizer can be added to each layer when the layer is defined in a Keras model.
+
+    - Early stopping: stop the training when starting to overfit
+        # tf.keras.callbacks.EarlyStopping
+
+    - Data augmentation: when having not enough data, increase inputs to avoid memorizing data
+        - Increases variance of data, and helps to avoid
+        - apply distorsions/noise to samples: Zoom in/out, rotate…
+
+        # tf.keras.preprocessing.image.ImageDataGenerator
