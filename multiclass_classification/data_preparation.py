@@ -86,6 +86,14 @@ def dataset_from_tensor_slices(x, y):
     return from_tensor_slices_dataset
 
 
+# Create dataset from generator
+# -----------------------
+def dataset_from_generator(generator,img_h, img_w, channels, num_classes):
+	dataset = tf.data.Dataset.from_generator(lambda: generator,
+											 output_types=(tf.float32, tf.float32),
+											 output_shapes=([None, img_h, img_w, channels], [None, num_classes]))
+	return dataset
+
 # Combine multiple datasets
 # -------------------------
 def combine_datasets(x, y):

@@ -12,6 +12,10 @@ Nevertheless, there are times when you need the exact same result every time the
 #----------------------------
 # tf.keras.datasets ==> available keras datasets
 
+- Data splitting:
+    # choose the validation and test sets from the same distribution and it must be taken randomly from all the data.
+
+
 
 ## Define Model architecture ##
 # -----------------------------
@@ -41,8 +45,20 @@ Nevertheless, there are times when you need the exact same result every time the
 
 ## Model training and validation ##
 # ---------------------------------
-# model.compile (tf.keras.optimizers, tf.keras.losses) ::: prepare model for training
-# model.fit ::: train the model
+# model.compile ## tf.keras.optimizers, ::: An optimizer applies the computed gradients to the model's variables
+                                          to minimize the loss function
+                ## tf.keras.losses)
+
+# keras provides three functions to train DL models:
+    .fit  ::: two primary assumptions:
+              - Our entire training set can fit into RAM
+              - There is no data augmentation going on
+
+    .fit_generator
+              - pass in the data generator and the desired length of an epoch
+                as well as the total number of epochs on which to train.
+
+    .train_on_batch
 
 
 ## Model test ##

@@ -4,30 +4,31 @@
 import tensorflow as tf
 import numpy as np
 
-from utils import data_preparation as dp
-from utils.training_callbacks import callbacks, set_which_model
+import data_preparation as dp
+from training_callbacks import callbacks, set_which_model
 
 
-# Fix the seed for random operations to make experiments reproducible.
+# Fix the seed for random operations
+# to make experiments reproducible.
 SEED = 1234
 tf.random.set_seed(SEED)
 
 
 # Multi-class Fashion MNIST classification
-# ----------------------------
+# ----------------------------------------
 
 # x: 28x28 (grayscale images)
 # y: 10 classes
-    # 1. T-shirt/top
-    # 2. Trouser/pants
-    # 3. Pullover shirt
-    # 4. Dress
-    # 5. Coat
-    # 6. Sandal
-    # 7. Shirt
-    # 8. Sneaker
-    # 9. Bag
-    # 10. Ankle boot
+    # T-shirt/top       # 0
+    # Trouser/pants     # 1
+    # Pullover shirt    # 2
+    # Dress             # 3
+    # Coat              # 4
+    # Sandal            # 5
+    # Shirt             # 6
+    # Sneaker           # 7
+    # Bag               # 8
+    # Ankle boot        # 9
 
 
 def create_model():
@@ -154,8 +155,12 @@ model.summary()
 # Visualize initialized weights
 print('model initial weights', model.weights)
 
-print('---------- ---------- ---------- ---------- ---------- ')
+# Representation of the model as a JSON string
+# json_string = model.to_json()
+# print(json_string)
+# loaded_model = tf.keras.models.model_from_json(json_string)
 
+print('---------- ---------- ---------- ---------- ---------- ')
 
 
 # 3 - Specify the training configuration (optimizer, loss, metrics)
@@ -181,7 +186,7 @@ model.compile(
 # of size 'batch_size', and repeatedly iterating over
 # the entire dataset for a given number of 'epochs'
 
-print('# Fit model on training data')
+print('Fit model on training data ...')
 
 # history = model.fit(x=train_dataset,  # you can give directly numpy arrays x_train
 #           y=None,   # if x is a Dataset y has to be None, y_train otherwise
@@ -189,7 +194,7 @@ print('# Fit model on training data')
 #           steps_per_epoch=int(np.ceil(x_train.shape[0] / bs)),  # how many batches per epoch
 #           validation_data=valid_dataset,  # give a validation Dataset if you created it manually,
 #                                           # otherwise you can use 'validation_split' for automatic split
-#           validation_steps=10000)  # number of batches in validation set
+#           validation_steps=10000)  # number of valid samples
 
 
 # Training with callbacks
@@ -203,12 +208,11 @@ history = model.fit(x=train_dataset,
           validation_steps=10000,
           callbacks=callbacks)
 
-# The returned 'history' object holds a record
-# of the loss values and metric values during training
+# The returned 'history' object holds a record of the loss values and metric values during training
 # print('\nhistory dict:', history.history)
 
 
-# 4 - Test Model
+# 5 - Evaluate Model
 # --------------
 
 # model.load_weights('/path/to/checkpoint')  # use this if you want to restore saved model

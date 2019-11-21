@@ -2,21 +2,21 @@
 #  -*- coding: utf-8 -*-
 
 import numpy as np
-import tensorflow as tf
 
 # Deep Learning Framework
 # ---------------
 
 import tensorflow as tf
 
-from utils import data_preparation as dp
+from multiclass_classification import data_preparation as dp
 
 # Set the seed for random operations.
 # This let our experiments to be reproducible.
 tf.random.set_seed(1234)
 
 
-## Dataset and Data Loader ##
+# Dataset and Data Loader
+# -----------------------
 
 # different ways of creating a dataset
 dp.sequential_dataset()

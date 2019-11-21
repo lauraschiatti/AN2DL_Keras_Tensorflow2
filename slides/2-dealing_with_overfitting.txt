@@ -27,7 +27,7 @@ Now, when stop training?
     - Early stopping: stop the training when starting to overfit
         # tf.keras.callbacks.EarlyStopping
 
-    - Data augmentation: when there's not enough data, increase inputs to avoid memorizing data and increase variance
+    - Data augmentation: to avoid overfitting and increase the ability of our model to generalize.
         - generate “new” training samples from the original ones by applying random jitters(noise) and perturbations
         (but at the same time ensuring that the class labels of the data are not changed).
 

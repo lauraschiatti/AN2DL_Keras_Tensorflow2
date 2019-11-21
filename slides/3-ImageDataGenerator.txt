@@ -3,17 +3,20 @@
                 ##### ImageDataGenerator #####
 # ------------------------------------------------------------------ #
 
-# Image preprocessing
-
+## Augment image data
 the ImageDataGenerator ...
 - Receives a batch of images used for training.
 - Applies a series of random transformations to each image in the batch (random rotation, resizing, shearing, etc.)
 - Replaces the original batch with the new.
 - Training the CNN on this randomly transformed batch (i.e., the original data itself is not used for training).
 
-Steps
+
+
+# Steps
+# -----
 
 1. Organize dataset folders:
+
     - data/
         - training/
             - class_1/
@@ -36,11 +39,15 @@ Steps
             - class_K/
                 - img1, img2, ..., imgN
 
+**** Important ***** : Frequently, the test directory which doesn’t have subdirectories
+                       as you don’t know the classes of those images.
+
+
 2. Initialize ImageDataGenerator object:
     img_gen = ImageDataGenerator(...)
 
 
-3. Call flow_from_directory class method to create generators to read images from dataset directory
+3. Use flow_from_directory to load batches of images from a labeled directory structure
 
     flow_img_gen = flow_from_directory(
         directory,
