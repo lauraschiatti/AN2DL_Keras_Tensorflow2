@@ -234,7 +234,7 @@ print('---------- ---------- ---------- ---------- ---------- ')
 # on new data using `predict`
 print('\n# Generate predictions for picture shoe.png')
 
-shoe_img = Image.open('img/shoe.png').convert('L') # open into greyscale, or L mode
+shoe_img = Image.open('shoe.png').convert('L') # open into greyscale, or L mode
 
 shoe_arr = np.expand_dims(np.array(shoe_img), 0)
 
