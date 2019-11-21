@@ -5,7 +5,7 @@ import tensorflow as tf
 import numpy as np
 
 import data_preparation as dp
-from training_callbacks import callbacks, set_which_model
+import multiclass_classification.train_callbacks as tc
 
 
 # Fix the seed for random operations
@@ -34,7 +34,7 @@ tf.random.set_seed(SEED)
 def create_model():
 
     which_model = 'base_weight_decay'
-    set_which_model(which_model) # set model for training_callbacks
+    tc.set_which_model(which_model) # set model for training_callbacks
 
     # Create base model using functional API Model (e.g., Input -> Hidden -> Out)
     if which_model == 'model':
@@ -206,7 +206,7 @@ history = model.fit(x=train_dataset,
           # at the end of each epoch
           validation_data=valid_dataset,
           validation_steps=10000,
-          callbacks=callbacks)
+          callbacks=tc.callbacks)
 
 # The returned 'history' object holds a record of the loss values and metric values during training
 # print('\nhistory dict:', history.history)
@@ -234,7 +234,7 @@ print('---------- ---------- ---------- ---------- ---------- ')
 # on new data using `predict`
 print('\n# Generate predictions for picture shoe.png')
 
-shoe_img = Image.open('shoe.png').convert('L') # open into greyscale, or L mode
+shoe_img = Image.open('multiclass_classification/shoe.png').convert('L') # open into greyscale, or L mode
 
 shoe_arr = np.expand_dims(np.array(shoe_img), 0)
 

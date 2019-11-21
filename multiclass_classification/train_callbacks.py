@@ -1,3 +1,6 @@
+# !/usr/bin/env python3.6
+#  -*- coding: utf-8 -*-
+
 import os
 from datetime import datetime
 import tensorflow as tf
