@@ -75,27 +75,29 @@ def setup_data_generator():
 	bs = 8
 
 	# img shape
-	print("imag shape ... ")
-	training_dir = os.path.join(dataset_dir, 'training')
+	img_h = 256
+	img_w = 256
+	channels = 3
 
-	images, labels = next(train_data_gen.flow_from_directory(training_dir))
-	print(images.dtype, images.shape)
-	print(labels.dtype, labels.shape)
+	num_classes = 21
 
-	global img_h
-	img_h = images.shape[1]
-	global img_w
-	img_w = images.shape[2]
-	global channels
-	channels = images.shape[3]
-
-	global num_classes
-	num_classes = labels.shape[1]
-
-	print("img_h", img_h)
-	print("img_w", img_w)
-	print("channels", )
-	print("num_classes", labels.shape[1])
+	# img shape
+	# print("imag shape ... ")
+	# training_dir = os.path.join(dataset_dir, 'training')
+	#
+	# images, labels = next(train_data_gen.flow_from_directory(training_dir))
+	# print(images.dtype, images.shape)
+	# print(labels.dtype, labels.shape)
+	#
+	# img_h = images.shape[1]
+	# img_w = images.shape[2]
+	# channels = images.shape[3]
+	# num_classes = labels.shape[1]
+	#
+	# print("img_h", img_h)
+	# print("img_w", img_w)
+	# print("channels", )
+	# print("num_classes", labels.shape[1])
 
 	decide_class_indices = False
 	if decide_class_indices:
@@ -124,10 +126,12 @@ def setup_data_generator():
 		classes = None
 
 	# Training
+	training_dir = os.path.join(dataset_dir, 'training')
 	train_gen = train_data_gen.flow_from_directory(training_dir,
 												   batch_size=bs,
 												   classes=classes,
-												   class_mode='categorical', # targets are directly converted into one-hot vectors
+												   # targets are directly converted into one-hot vectors
+												   class_mode='categorical',
 												   shuffle=True,
 												   seed=seed)
 
@@ -161,9 +165,13 @@ def setup_data_generator():
 												   output_shapes=([None, img_h, img_w, channels], [None, num_classes]))
 
 	# Shuffle (Already done in generator..)
+
 	# Normalize images (Already done in generator..)
+
 	# 1-hot encoding <- for categorical cross entropy (Already done in generator..)
+
 	# Divide in batches (Already done in generator..)
+
 	train_dataset = train_dataset.repeat() # repeat
 
 	# Validation
@@ -183,7 +191,7 @@ def setup_data_generator():
 
 	print("class labels ...", train_gen.class_indices)  # check the class labels
 
-	return train_dataset, valid_dataset, test_dataset, img_w, img_h, channels, num_classes
+	return train_dataset, valid_dataset, test_dataset, train_gen, valid_gen, test_gen
 
 
 # Let's test data augmentation

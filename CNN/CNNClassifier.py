@@ -5,6 +5,7 @@ import tensorflow as tf
 
 
 class CNNClassifier(tf.keras.Model):
+
 	def __init__(self, depth, num_filters, num_classes):
 		super(CNNClassifier, self).__init__()
 
@@ -35,6 +36,7 @@ class CNNClassifier(tf.keras.Model):
 
 # Create convolutional block
 class ConvBlock(tf.keras.Model):
+
 	def __init__(self, num_filters):
 		super(ConvBlock, self).__init__()
 		self.conv2d = tf.keras.layers.Conv2D(filters=num_filters,
